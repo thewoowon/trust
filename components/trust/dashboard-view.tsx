@@ -711,7 +711,6 @@ export function DashboardView({
           >
             <div className="glass rounded-2xl p-6">
               <div className="flex items-center gap-3 mb-6">
-                <Award className="w-6 h-6 text-[#00f3ff]" />
                 <h2 className="text-xl font-semibold text-foreground">
                   Your Trust Badge
                 </h2>
@@ -746,19 +745,46 @@ export function DashboardView({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
             className="mt-8"
+            style={{
+              maxWidth: "1560px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto",
+            }}
           >
-            <div className="glass rounded-2xl p-6 text-center">
-              <Award className="w-12 h-12 text-[#00f3ff] mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-foreground mb-2">
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "40px",
+                border: " 1px solid rgba(255, 255, 255, 0.1)",
+                height: "300px",
+                gap: "10px",
+              }}
+            >
+              <div
+                style={{
+                  ...TYPOGRAPHY.h3.semiBold,
+                  color: "white",
+                  marginBottom: "8px",
+                }}
+              >
                 Celebrate Your Security!
-              </h3>
-              <p className="text-muted-foreground mb-4">
+              </div>
+              <p style={{ ...TYPOGRAPHY.body1.regular, color: "white" }}>
                 Show off your perfect score with a Trust Badge on your README.
               </p>
               <Button
                 onClick={handleGenerateBadge}
                 disabled={isGeneratingBadge}
-                className="bg-[#00f3ff] text-background hover:bg-[#00f3ff]/90"
+                style={{
+                  cursor: "pointer",
+                }}
               >
                 {isGeneratingBadge ? (
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
