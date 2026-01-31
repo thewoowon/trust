@@ -12,7 +12,7 @@ import { startScan } from "@/lib/api";
 export type AppState = "landing" | "scanning" | "dashboard" | "mcp";
 
 export default function TrustApp() {
-  const [appState, setAppState] = useState<AppState>("dashboard");
+  const [appState, setAppState] = useState<AppState>("landing");
   const [scanTarget, setScanTarget] = useState("");
   const [scanId, setScanId] = useState<string | null>(null);
   const [scanResult, setScanResult] = useState<ScanResult | null>(null);
