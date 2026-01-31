@@ -310,7 +310,7 @@ export function DashboardView({
 
           {/* Summary Cards */}
           <div
-            className="flex-1 flex flex-col"
+            className="flex-1 flex flex-row"
             style={{
               maxWidth: "1300px",
             }}
@@ -321,19 +321,21 @@ export function DashboardView({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                className={`flex items-center justify-between gap-4`}
+                className={`flex flex-col items-start justify-between gap-4`}
                 style={{
+                  flex: 1,
+                  height: "242px",
                   padding: "24.5px 40px",
                   border: `1px solid ${COLORS.grayscale[1000]}`,
                 }}
               >
-                <div className={`flex items-center gap-4`}>
+                <div className={`flex flex-col items-start gap-4`}>
                   <BugIcon fill={card.color} />
                   <p style={{ ...TYPOGRAPHY.h3.regular, color: card.color }}>
                     {card.title}
                   </p>
                 </div>
-                <p style={{ ...TYPOGRAPHY.h3.regular, color: card.color }}>
+                <p style={{ ...TYPOGRAPHY.h1.medium, color: card.color }}>
                   {card.count}
                 </p>
               </motion.div>
@@ -382,7 +384,7 @@ export function DashboardView({
                 ) : (
                   <LogoIcon width={32} height={32} fill="rgba(89, 89, 89, 1)" />
                 )}
-                {isAnalyzingAll ? "Analyzing..." : "Get AI Insights"}
+                {isAnalyzingAll ? "Analyzing..." : "Get AI Analysis"}
               </button>
             )}
           </div>
@@ -438,9 +440,20 @@ export function DashboardView({
                     >
                       <div className="flex items-center gap-4">
                         {/* Actions */}
-                        <button
-                          onClick={() => handleApplyFix(vuln.id)}
-                          disabled={vuln.fixed}
+                        <div
+                          role="checkbox"
+                          aria-checked={vuln.fixed}
+                          tabIndex={0}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (!vuln.fixed) handleApplyFix(vuln.id);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.stopPropagation();
+                              if (!vuln.fixed) handleApplyFix(vuln.id);
+                            }
+                          }}
                           style={{
                             cursor: vuln.fixed ? "not-allowed" : "pointer",
                             border: `1px solid ${
@@ -456,7 +469,7 @@ export function DashboardView({
                           {vuln.fixed ? (
                             <Check className="w-4 h-4" color="white" />
                           ) : null}
-                        </button>
+                        </div>
                         <BugIcon
                           fill={
                             vuln.fixed
@@ -557,26 +570,6 @@ export function DashboardView({
                                   >
                                     Detected at: <code>{vuln.matched_at}</code>
                                   </p>
-                                  {!vuln.ai_analyzed && (
-                                    <Button
-                                      onClick={() =>
-                                        handleAnalyzeVulnerability(vuln.id)
-                                      }
-                                      disabled={isAnalyzing}
-                                      size="sm"
-                                      variant="outline"
-                                      className="mt-2 border-[#00f3ff]/30 text-[#00f3ff] hover:bg-[#00f3ff]/10"
-                                    >
-                                      {isAnalyzing ? (
-                                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                      ) : (
-                                        <Sparkles className="w-4 h-4 mr-2" />
-                                      )}
-                                      {isAnalyzing
-                                        ? "Analyzing..."
-                                        : "Get AI Analysis"}
-                                    </Button>
-                                  )}
                                 </div>
                               )}
                             </div>

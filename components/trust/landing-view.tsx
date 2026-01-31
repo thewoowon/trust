@@ -20,6 +20,7 @@ import {
   LogoIcon,
 } from "../svg";
 import Image from "next/image";
+import ColorBends from "../ColorBends";
 
 interface LandingViewProps {
   onStartScan: (target: string) => void | Promise<void>;
@@ -42,10 +43,26 @@ export function LandingView({
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-x-hidden min-w-480">
-      <div className="absolute -top-1/5 -right-200">
+      {/* ColorBends Background */}
+      {/* <div className="fixed inset-0 z-0">
+        <ColorBends
+          rotation={45}
+          speed={0.2}
+          colors={["#5227FF", "#FF9FFC", "#7cff67"]}
+          transparent
+          autoRotate={0}
+          scale={1}
+          frequency={1}
+          warpStrength={1}
+          mouseInfluence={1}
+          parallax={0.5}
+          noise={0.1}
+        />
+      </div> */}
+      <div className="absolute -top-1/5 -right-200 z-10">
         <BlurLogoIcon />
       </div>
-      <div className="absolute top-1/8 -left-100">
+      <div className="absolute top-1/8 -left-100 z-10">
         <BlurLogoIcon />
       </div>
       <div className="fixed inset-0 z-20 overflow-hidden pointer-events-none">

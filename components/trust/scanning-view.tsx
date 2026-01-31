@@ -11,6 +11,7 @@ import { BatteryCellIcon, BatteryIcon, JointIcon, LogoIcon } from "../svg";
 import { TYPOGRAPHY } from "@/styles/typography";
 import { COLORS } from "@/styles/color";
 import Image from "next/image";
+import Hyperspeed from "../Hyperspeed";
 
 // Memoized Galaxy background to prevent re-renders
 const MemoizedGalaxy = memo(function MemoizedGalaxy() {
@@ -241,6 +242,8 @@ export function ScanningView({
     string,
     CategoryStatus
   > | null>(null);
+  const [showHyperspeed, setShowHyperspeed] = useState(false);
+  const [pendingResult, setPendingResult] = useState<ScanResult | null>(null);
 
   // Ref for auto-scrolling log container
   const logContainerRef = useRef<HTMLDivElement>(null);
@@ -334,9 +337,14 @@ export function ScanningView({
             if (t < 1) {
               requestAnimationFrame(animateProgress);
             } else {
+              // Show Hyperspeed warp effect before transitioning
+              setPendingResult(result);
+              setShowHyperspeed(true);
+
+              // Transition to dashboard after hyperspeed effect
               setTimeout(() => {
                 if (isMounted) onComplete(result);
-              }, 700);
+              }, 2500); // 2.5 seconds of hyperspeed effect
             }
           };
 
@@ -385,6 +393,91 @@ export function ScanningView({
 
   const circumference = 2 * Math.PI * 120;
   const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+  // Hyperspeed effect options for warp transition
+  const hyperspeedOptions = {
+    onSpeedUp: () => {},
+    onSlowDown: () => {},
+    distortion: "turbulentDistortion" as const,
+    length: 400,
+    roadWidth: 10,
+    islandWidth: 2,
+    lanesPerRoad: 4,
+    fov: 90,
+    fovSpeedUp: 150,
+    speedUp: 3,
+    carLightsFade: 0.4,
+    totalSideLightSticks: 50,
+    lightPairsPerRoadWay: 70,
+    shoulderLinesWidthPercentage: 0.05,
+    brokenLinesWidthPercentage: 0.1,
+    brokenLinesLengthPercentage: 0.5,
+    lightStickWidth: [0.12, 0.5] as [number, number],
+    lightStickHeight: [1.3, 1.7] as [number, number],
+    movingAwaySpeed: [120, 160] as [number, number],
+    movingCloserSpeed: [-200, -280] as [number, number],
+    carLightsLength: [400 * 0.05, 400 * 0.3] as [number, number],
+    carLightsRadius: [0.05, 0.14] as [number, number],
+    carWidthPercentage: [0.3, 0.5] as [number, number],
+    carShiftX: [-0.8, 0.8] as [number, number],
+    carFloorSeparation: [0, 5] as [number, number],
+    colors: {
+      roadColor: 0x080808,
+      islandColor: 0x0a0a0a,
+      background: 0x000000,
+      shoulderLines: 0x3368a2,
+      brokenLines: 0x3368a2,
+      leftCars: [0x3368a2, 0x00f3ff, 0x5599dd],
+      rightCars: [0x00f3ff, 0x3368a2, 0x88ccff],
+      sticks: 0x00f3ff,
+    },
+  };
+
+  // Show Hyperspeed warp effect when scan is complete
+  if (showHyperspeed) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="fixed inset-0 z-50"
+      >
+        <Hyperspeed effectOptions={hyperspeedOptions} />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        >
+          <div className="text-center">
+            <motion.div
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 0.8, repeat: Infinity }}
+            >
+              <LogoIcon width={120} height={120} fill="white" />
+            </motion.div>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              style={{ ...TYPOGRAPHY.h2.semiBold }}
+              className="text-white mt-6"
+            >
+              Scan Complete!
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              style={{ ...TYPOGRAPHY.h3.regular }}
+              className="text-[#00f3ff] mt-2"
+            >
+              Launching Dashboard...
+            </motion.p>
+          </div>
+        </motion.div>
+      </motion.div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-12 relative">
@@ -595,7 +688,15 @@ export function ScanningView({
                             })}
                           </div>
                         </div>
-                        <span>{item}</span>
+                        <span
+                          style={{
+                            ...TYPOGRAPHY.h3.regular,
+                            color: "white",
+
+                          }}
+                        >
+                          {item}
+                        </span>
                       </motion.div>
                     );
                   })}
