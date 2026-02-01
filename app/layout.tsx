@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Trust - AI-Native Security for Indie Devs",
   description:
     "Secure your vibe with AI-native security scanning for individual developers and small teams. Detect vulnerabilities, API leaks, and privacy risks.",
-  generator: "v0.app",
+  generator: "StonesLab",
   icons: {
     icon: [
       {
@@ -31,6 +31,30 @@ export const metadata: Metadata = {
       },
     ],
     apple: "/apple-icon.png",
+  },
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    url: "https://trust-ochre.vercel.app",
+    siteName: "트러스트",
+    images: [
+      {
+        url: "https://trust-ochre.vercel.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "트러스트",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@trust",
+    siteId: "1467726470533754880",
+    creatorId: "1467726470533754880",
+    creator: "@stoneslab",
+    title: "트로스트",
+    description: "인디 개발자를 위한 AI 기반 보안 솔루션",
+    images: "",
   },
 };
 
