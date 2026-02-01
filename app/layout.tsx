@@ -11,9 +11,9 @@ const pixelifySans = Pixelify_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Trust - AI-Native Security for Indie Devs",
+  title: "Trust - Sercure your Vibe",
   description:
-    "Secure your vibe with AI-native security scanning for individual developers and small teams. Detect vulnerabilities, API leaks, and privacy risks.",
+    "바이브 코더의, 바이브 코더에 의한, 바이브 코더를 위한 단 5분, 원클릭 보안 스캐너",
   generator: "StonesLab",
   icons: {
     icon: [
@@ -52,8 +52,8 @@ export const metadata: Metadata = {
     siteId: "1467726470533754880",
     creatorId: "1467726470533754880",
     creator: "@stoneslab",
-    title: "트로스트",
-    description: "인디 개발자를 위한 AI 기반 보안 솔루션",
+    title: "Trust - Sercure your Vibe",
+    description: "바이브 코더의, 바이브 코더에 의한, 바이브 코더를 위한 단 5분, 원클릭 보안 스캐너",
     images: "",
   },
 };
